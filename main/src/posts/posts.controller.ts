@@ -5,6 +5,7 @@ import {
     Get,
     HttpCode,
     HttpStatus,
+    Inject,
     Param,
     Post,
     Put,
@@ -16,10 +17,17 @@ import {
 } from '@nestjs/swagger';
 import { PostModel } from 'models/response/Post.model';
 import { PostDto } from 'models/dto/Post.dto';
+import { PostServiceInterface } from './posts.service';
+import { Observable } from 'rxjs';
 
 @Controller('posts')
 @ApiTags('Posts')
 export class PostsController {
+    constructor(
+        @Inject(PostServiceInterface)
+        private readonly postsService: PostServiceInterface,
+    ) {}
+
     @Get('/')
     @ApiResponse({
         status: HttpStatus.OK,
@@ -27,8 +35,8 @@ export class PostsController {
         isArray: true,
     })
     @ApiOperation({ summary: 'fetch all posts' })
-    async fetchAllPosts(): Promise<PostModel[]> {
-        throw new Error('not implemented');
+    fetchAllPosts(): Observable<PostModel[]> {
+        return this.postsService.fetchAllPosts();
     }
 
     @Get('/:id')
@@ -37,10 +45,10 @@ export class PostsController {
         status: HttpStatus.OK,
         type: PostModel,
     })
-    async getPost(
+    getPost(
         @Param('id') id: string,
-    ): Promise<PostModel> {
-        throw new Error('not implemented');
+    ): Observable<PostModel> {
+        return this.postsService.getPostById(id);
     }
 
     @Post('/')
@@ -50,29 +58,27 @@ export class PostsController {
         type: PostModel,
     })
     @HttpCode(HttpStatus.CREATED)
-    async createPost(
+    createPost(
         @Body() data: PostDto,
-    ): Promise<PostModel> {
-        throw new Error('not implemented');
+    ): Observable<PostModel> {
+        return this.postsService.createPost(data);
     }
 
     @Put('/:id')
     @ApiOperation({ summary: 'update post' })
     @ApiResponse({ status: HttpStatus.OK, type: PostModel })
-    async updatePost(
+    updatePost(
         @Param('id') id: string,
         @Body() data: PostDto,
-    ): Promise<PostModel> {
-        throw new Error('not implemented');
+    ): Observable<PostModel> {
+        return this.updatePost(id, data);
     }
 
     @Delete('/:id')
     @ApiOperation({ summary: 'delete post' })
     @ApiResponse({ status: HttpStatus.NO_CONTENT })
     @HttpCode(HttpStatus.NO_CONTENT)
-    async deletePost(
-        @Param('id') id: string,
-    ): Promise<void> {
-        throw new Error('not implemented');
+    deletePost(@Param('id') id: string): Observable<void> {
+        return this.deletePost(id);
     }
 }
