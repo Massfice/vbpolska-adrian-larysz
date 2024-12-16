@@ -15,8 +15,8 @@ import {
     ApiResponse,
     ApiTags,
 } from '@nestjs/swagger';
-import { PostModel } from 'models/response/Post.model';
-import { PostDto } from 'models/dto/Post.dto';
+import { PostModel } from '../models/response/Post.model';
+import { PostDto } from '../models/dto/Post.dto';
 import { PostsServiceInterface } from './posts.service';
 import { Observable } from 'rxjs';
 

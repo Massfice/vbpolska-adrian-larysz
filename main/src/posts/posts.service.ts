@@ -3,8 +3,8 @@ import { Observable, of } from 'rxjs';
 import {
     PostModel,
     PostState,
-} from 'models/response/Post.model';
-import { PostDto } from 'models/dto/Post.dto';
+} from '../models/response/Post.model';
+import { PostDto } from '../models/dto/Post.dto';
 
 export interface PostsServiceInterface {
     fetchAllPosts(): Observable<PostModel[]>;
