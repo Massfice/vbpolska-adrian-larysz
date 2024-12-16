@@ -71,14 +71,14 @@ export class PostsController {
         @Param('id') id: string,
         @Body() data: PostDto,
     ): Observable<PostModel> {
-        return this.updatePost(id, data);
+        return this.postsService.updatePost(id, data);
     }
 
     @Delete('/:id')
     @ApiOperation({ summary: 'delete post' })
     @ApiResponse({ status: HttpStatus.NO_CONTENT })
     @HttpCode(HttpStatus.NO_CONTENT)
-    deletePost(@Param('id') id: string): Observable<void> {
-        return this.deletePost(id);
+    deletePost(@Param('id') id: string): void {
+        return this.postsService.deletePost(id);
     }
 }
