@@ -1,41 +1,61 @@
 import { Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { PostModel } from 'models/response/Post.model';
+import { Observable, of } from 'rxjs';
+import {
+    PostModel,
+    PostState,
+} from 'models/response/Post.model';
 import { PostDto } from 'models/dto/Post.dto';
 
 export interface PostsServiceInterface {
     fetchAllPosts(): Observable<PostModel[]>;
+
     getPostById(id: string): Observable<PostModel>;
+
     createPost(data: PostDto): Observable<PostModel>;
     updatePost(
         id: string,
         data: PostDto,
     ): Observable<PostModel>;
-    deletePost(id: string): Observable<void>;
+
+    deletePost(id: string): void;
 }
 
 export const PostsServiceInterface = Symbol(
     'PostServiceInterface',
 );
 
+const post: PostModel = {
+    id: '123',
+    title: 'My post',
+    content: 'My post content',
+    state: PostState.DRAFT,
+    hash: 'hash',
+    created_at: new Date(),
+    updated_at: new Date(),
+};
+
 @Injectable()
 export class PostsService implements PostsServiceInterface {
     fetchAllPosts(): Observable<PostModel[]> {
-        throw new Error('Method not implemented.');
+        const posts: PostModel[] = [post];
+
+        return of(posts);
     }
+
     getPostById(id: string): Observable<PostModel> {
-        throw new Error('Method not implemented.');
+        return of(post);
     }
+
     createPost(data: PostDto): Observable<PostModel> {
-        throw new Error('Method not implemented.');
+        return of(post);
     }
+
     updatePost(
         id: string,
         data: PostDto,
     ): Observable<PostModel> {
-        throw new Error('Method not implemented.');
+        return of(post);
     }
-    deletePost(id: string): Observable<void> {
-        throw new Error('Method not implemented.');
-    }
+
+    deletePost(id: string): void {}
 }
