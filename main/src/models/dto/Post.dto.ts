@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { PostState } from 'models/response/Post.model';
+import { PostState } from '../response/Post.model';
 
 export class PostDto {
     @ApiProperty()
