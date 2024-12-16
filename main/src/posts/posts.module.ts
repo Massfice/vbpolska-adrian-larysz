@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PostsController } from './posts.controller';
 import {
-    PostServiceInterface,
+    PostsServiceInterface,
     PostsService,
 } from './posts.service';
 
@@ -9,7 +9,7 @@ import {
     controllers: [PostsController],
     providers: [
         {
-            provide: PostServiceInterface,
+            provide: PostsServiceInterface,
             useClass: PostsService,
         },
     ],

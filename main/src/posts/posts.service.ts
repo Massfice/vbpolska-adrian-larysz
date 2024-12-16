@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { PostModel } from 'models/response/Post.model';
 import { PostDto } from 'models/dto/Post.dto';
 
-export interface PostServiceInterface {
+export interface PostsServiceInterface {
     fetchAllPosts(): Observable<PostModel[]>;
     getPostById(id: string): Observable<PostModel>;
     createPost(data: PostDto): Observable<PostModel>;
@@ -14,12 +14,12 @@ export interface PostServiceInterface {
     deletePost(id: string): Observable<void>;
 }
 
-export const PostServiceInterface = Symbol(
+export const PostsServiceInterface = Symbol(
     'PostServiceInterface',
 );
 
 @Injectable()
-export class PostsService implements PostServiceInterface {
+export class PostsService implements PostsServiceInterface {
     fetchAllPosts(): Observable<PostModel[]> {
         throw new Error('Method not implemented.');
     }

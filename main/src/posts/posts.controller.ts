@@ -17,15 +17,15 @@ import {
 } from '@nestjs/swagger';
 import { PostModel } from 'models/response/Post.model';
 import { PostDto } from 'models/dto/Post.dto';
-import { PostServiceInterface } from './posts.service';
+import { PostsServiceInterface } from './posts.service';
 import { Observable } from 'rxjs';
 
 @Controller('posts')
 @ApiTags('Posts')
 export class PostsController {
     constructor(
-        @Inject(PostServiceInterface)
-        private readonly postsService: PostServiceInterface,
+        @Inject(PostsServiceInterface)
+        private readonly postsService: PostsServiceInterface,
     ) {}
 
     @Get('/')
