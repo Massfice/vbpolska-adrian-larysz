@@ -11,7 +11,7 @@ export interface PostsServiceInterface {
     updatePost(
         id: string,
         data: PostDto,
-    ): Observable<PostModel>;
+    ): Observable<PostModel | null>;
 
     deletePost(id: string): void;
 }
