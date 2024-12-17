@@ -6,7 +6,8 @@ import {
 import { PostsController } from './posts.controller';
 import { PostsService } from './posts.service';
 import { PostsServiceInterface } from '../interfaces/PostsService.interface';
-import { PostsApiInterface } from '../interfaces/PostsApi.interface';
+import { PostsApiServiceInterface } from '../interfaces/PostsApiService.interface';
+import { PostsApiService } from './postsApi.service';
 
 @Module({
     controllers: [PostsController],
@@ -15,11 +16,15 @@ import { PostsApiInterface } from '../interfaces/PostsApi.interface';
             provide: PostsServiceInterface,
             useClass: PostsService,
         },
+        {
+            provide: PostsApiServiceInterface,
+            useClass: PostsApiService,
+        },
     ],
     imports: [
         ClientsModule.registerAsync([
             {
-                name: PostsApiInterface,
+                name: 'posts-api-client',
                 imports: [],
                 useFactory: async () => ({
                     transport: Transport.NATS,
