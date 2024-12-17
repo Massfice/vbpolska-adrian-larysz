@@ -8,6 +8,8 @@ import { PostsService } from './posts.service';
 import { PostsServiceInterface } from '../interfaces/PostsService.interface';
 import { PostsApiServiceInterface } from '../interfaces/PostsApiService.interface';
 import { PostsApiService } from './postsApi.service';
+import { IdGeneratorServiceInterface } from '../interfaces/IdGeneratorService.interface';
+import { IdGeneratorService } from './idGenerator.service';
 
 @Module({
     controllers: [PostsController],
@@ -19,6 +21,10 @@ import { PostsApiService } from './postsApi.service';
         {
             provide: PostsApiServiceInterface,
             useClass: PostsApiService,
+        },
+        {
+            provide: IdGeneratorServiceInterface,
+            useClass: IdGeneratorService,
         },
     ],
     imports: [
