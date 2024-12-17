@@ -3,13 +3,13 @@ import { Observable, of } from 'rxjs';
 import {
     PostModel,
     PostState,
-} from 'models/response/Post.model';
-import { PostDto } from 'models/dto/Post.dto';
+} from '../models/response/Post.model';
+import { PostDto } from '../models/dto/Post.dto';
 
 export interface PostsServiceInterface {
     fetchAllPosts(): Observable<PostModel[]>;
 
-    getPostById(id: string): Observable<PostModel>;
+    getPostById(id: string): Observable<PostModel | null>;
 
     createPost(data: PostDto): Observable<PostModel>;
     updatePost(
@@ -42,7 +42,7 @@ export class PostsService implements PostsServiceInterface {
         return of(posts);
     }
 
-    getPostById(id: string): Observable<PostModel> {
+    getPostById(id: string): Observable<PostModel | null> {
         return of(post);
     }
 
@@ -53,7 +53,7 @@ export class PostsService implements PostsServiceInterface {
     updatePost(
         id: string,
         data: PostDto,
-    ): Observable<PostModel> {
+    ): Observable<PostModel | null> {
         return of(post);
     }
 
