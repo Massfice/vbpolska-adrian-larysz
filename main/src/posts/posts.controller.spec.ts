@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TestScheduler } from 'rxjs/testing';
-import { map, of } from 'rxjs';
+import { of } from 'rxjs';
 import { PostsController } from './posts.controller';
 import { PostsServiceInterface } from './posts.service';
 import {
@@ -8,8 +8,8 @@ import {
     PostState,
 } from '../models/response/Post.model';
 import { PostsService } from '../../mocks/posts.service';
-import { createApiError } from '../utils/createApiError';
 import { HttpStatus } from '@nestjs/common';
+import { PostDto } from '../models/dto/Post.dto';
 
 const testScheduler = new TestScheduler(
     (actual, expected) => {
@@ -140,6 +140,109 @@ describe('PostsController', () => {
                     }),
                 );
             });
+        });
+    });
+
+    describe('createPost', () => {
+        it('returns created post', () => {
+            const post: PostModel = {
+                id: '123',
+                title: 'My first post',
+                content: 'My post content',
+                state: PostState.DRAFT,
+                hash: 'hash',
+                created_at: new Date(),
+                updated_at: new Date(),
+            };
+
+            const postData: PostDto = {
+                title: 'My first post',
+                content: 'My post content',
+                state: PostState.DRAFT,
+            };
+
+            testScheduler.run(({ expectObservable }) => {
+                const response =
+                    controller.createPost(postData);
+
+                expectObservable(response).toBe('(a|)', {
+                    a: post,
+                });
+            });
+        });
+    });
+
+    describe('updatePost', () => {
+        it('returns updated post', () => {
+            const post: PostModel = {
+                id: '123',
+                title: 'My first post',
+                content: 'My post content',
+                state: PostState.DRAFT,
+                hash: 'hash',
+                created_at: new Date(),
+                updated_at: new Date(),
+            };
+
+            postsService.posts = [post];
+
+            const postData: PostDto = {
+                title: 'My first post updated',
+                content: 'My post content updated',
+                state: PostState.PUBLISHED,
+            };
+
+            testScheduler.run(({ expectObservable }) => {
+                const response = controller.updatePost(
+                    '123',
+                    postData,
+                );
+
+                expectObservable(response).toBe('(a|)', {
+                    a: {
+                        ...post,
+                        title: postData.title,
+                        content: postData.content,
+                        state: postData.state,
+                    },
+                });
+            });
+        });
+
+        it('throws error if post is not found', () => {
+            const postData: PostDto = {
+                title: 'My first post updated',
+                content: 'My post content updated',
+                state: PostState.PUBLISHED,
+            };
+
+            testScheduler.run(({ expectObservable }) => {
+                const response = controller.updatePost(
+                    '123',
+                    postData,
+                );
+
+                expectObservable(response).toBe(
+                    '#',
+                    null,
+                    expect.objectContaining({
+                        response: expect.objectContaining({
+                            status: HttpStatus.NOT_FOUND,
+                            message: 'Post not found',
+                            service: 'posts',
+                        }),
+                        status: HttpStatus.NOT_FOUND,
+                    }),
+                );
+            });
+        });
+    });
+
+    describe('deletePost', () => {
+        it('returns nothing', () => {
+            const response = controller.deletePost('12345');
+
+            expect(response).toBeUndefined();
         });
     });
 });

@@ -85,7 +85,20 @@ export class PostsController {
         @Param('id') id: string,
         @Body() data: PostDto,
     ): Observable<PostModel> {
-        return this.postsService.updatePost(id, data);
+        const post = this.postsService.updatePost(id, data);
+
+        return post.pipe(
+            map((value) => {
+                if (!value) {
+                    throw createApiError(
+                        HttpStatus.NOT_FOUND,
+                        'Post not found',
+                    );
+                }
+
+                return value;
+            }),
+        );
     }
 
     @Delete('/:id')
