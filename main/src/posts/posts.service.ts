@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Observable, of } from 'rxjs';
 import {
     PostModel,
@@ -6,6 +6,7 @@ import {
 } from '../models/response/Post.model';
 import { PostDto } from '../models/dto/Post.dto';
 import { PostsServiceInterface } from '../interfaces/PostsService.interface';
+import { PostsApiInterface } from '../interfaces/PostsApi.interface';
 
 const post: PostModel = {
     id: '123',
@@ -19,6 +20,11 @@ const post: PostModel = {
 
 @Injectable()
 export class PostsService implements PostsServiceInterface {
+    constructor(
+        @Inject(PostsApiInterface)
+        private readonly postsApi: PostsApiInterface,
+    ) {}
+
     fetchAllPosts(): Observable<PostModel[]> {
         const posts: PostModel[] = [post];
 
