@@ -18,7 +18,8 @@ import {
 import { PostModel } from '../models/response/Post.model';
 import { PostDto } from '../models/dto/Post.dto';
 import { PostsServiceInterface } from './posts.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { createApiError } from '../utils/createApiError';
 
 @Controller('posts')
 @ApiTags('Posts')
@@ -48,7 +49,20 @@ export class PostsController {
     getPost(
         @Param('id') id: string,
     ): Observable<PostModel> {
-        return this.postsService.getPostById(id);
+        const post = this.postsService.getPostById(id);
+
+        return post.pipe(
+            map((value) => {
+                if (!value) {
+                    throw createApiError(
+                        HttpStatus.NOT_FOUND,
+                        'Post not found',
+                    );
+                }
+
+                return value;
+            }),
+        );
     }
 
     @Post('/')
