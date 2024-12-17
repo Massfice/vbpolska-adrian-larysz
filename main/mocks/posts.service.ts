@@ -27,17 +27,37 @@ export class PostsService implements PostsServiceInterface {
     }
 
     createPost(data: PostDto): Observable<PostModel> {
-        throw new Error('Method not implemented.');
+        const post: PostModel = {
+            id: '123',
+            title: data.title,
+            content: data.content,
+            state: data.state,
+            hash: 'hash',
+            created_at: new Date(),
+            updated_at: new Date(),
+        };
+
+        return of(post);
     }
 
     updatePost(
         id: string,
         data: PostDto,
     ): Observable<PostModel> {
-        throw new Error('Method not implemented.');
+        const post = this._posts.find(
+            ({ id: postId }) => id === postId,
+        );
+
+        if (!post) {
+            return of(null);
+        }
+
+        post.title = data.title;
+        post.content = data.content;
+        post.state = data.state;
+
+        return of(post);
     }
 
-    deletePost(id: string): void {
-        throw new Error('Method not implemented.');
-    }
+    deletePost(id: string): void {}
 }
