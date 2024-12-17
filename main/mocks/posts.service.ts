@@ -1,7 +1,7 @@
 import { PostDto } from '../src/models/dto/Post.dto';
 import { PostModel } from '../src/models/response/Post.model';
 import { Observable, of } from 'rxjs';
-import { PostsServiceInterface } from '../src/posts/posts.service';
+import { PostsServiceInterface } from '../src/interfaces/PostsService.interface';
 
 export class PostsService implements PostsServiceInterface {
     private _posts: PostModel[] = [];
@@ -43,7 +43,7 @@ export class PostsService implements PostsServiceInterface {
     updatePost(
         id: string,
         data: PostDto,
-    ): Observable<PostModel> {
+    ): Observable<PostModel | null> {
         const post = this._posts.find(
             ({ id: postId }) => id === postId,
         );
