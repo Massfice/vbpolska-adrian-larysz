@@ -6,7 +6,7 @@ import {
 } from '../models/response/Post.model';
 import { PostDto } from '../models/dto/Post.dto';
 import { PostsServiceInterface } from '../interfaces/PostsService.interface';
-import { PostsApiInterface } from '../interfaces/PostsApi.interface';
+import { PostsApiServiceInterface } from '../interfaces/PostsApiService.interface';
 
 const post: PostModel = {
     id: '123',
@@ -21,8 +21,8 @@ const post: PostModel = {
 @Injectable()
 export class PostsService implements PostsServiceInterface {
     constructor(
-        @Inject(PostsApiInterface)
-        private readonly postsApi: PostsApiInterface,
+        @Inject(PostsApiServiceInterface)
+        private readonly postsApi: PostsApiServiceInterface,
     ) {}
 
     fetchAllPosts(): Observable<PostModel[]> {
