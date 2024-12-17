@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  nats:
+    image: nats:latest
+    container_name: nats
+    ports:
+      - "4222:4222" # Default NATS client port
+      - "8222:8222" # HTTP management and monitoring
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017" # MongoDB default port
