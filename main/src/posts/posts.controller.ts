@@ -15,11 +15,11 @@ import {
     ApiResponse,
     ApiTags,
 } from '@nestjs/swagger';
+import { map, Observable } from 'rxjs';
 import { PostModel } from '../models/response/Post.model';
 import { PostDto } from '../models/dto/Post.dto';
-import { PostsServiceInterface } from './posts.service';
-import { map, Observable } from 'rxjs';
 import { createApiError } from '../utils/createApiError';
+import { PostsServiceInterface } from '../interfaces/PostsService.interface';
 
 @Controller('posts')
 @ApiTags('Posts')

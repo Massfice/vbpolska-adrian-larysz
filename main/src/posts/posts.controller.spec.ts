@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TestScheduler } from 'rxjs/testing';
 import { of } from 'rxjs';
 import { PostsController } from './posts.controller';
-import { PostsServiceInterface } from './posts.service';
 import {
     PostModel,
     PostState,
@@ -10,6 +9,7 @@ import {
 import { PostsService } from '../../mocks/posts.service';
 import { HttpStatus } from '@nestjs/common';
 import { PostDto } from '../models/dto/Post.dto';
+import { PostsServiceInterface } from '../interfaces/PostsService.interface';
 
 const testScheduler = new TestScheduler(
     (actual, expected) => {

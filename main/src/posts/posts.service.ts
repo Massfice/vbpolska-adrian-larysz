@@ -5,24 +5,7 @@ import {
     PostState,
 } from '../models/response/Post.model';
 import { PostDto } from '../models/dto/Post.dto';
-
-export interface PostsServiceInterface {
-    fetchAllPosts(): Observable<PostModel[]>;
-
-    getPostById(id: string): Observable<PostModel | null>;
-
-    createPost(data: PostDto): Observable<PostModel>;
-    updatePost(
-        id: string,
-        data: PostDto,
-    ): Observable<PostModel>;
-
-    deletePost(id: string): void;
-}
-
-export const PostsServiceInterface = Symbol(
-    'PostServiceInterface',
-);
+import { PostsServiceInterface } from '../interfaces/PostsService.interface';
 
 const post: PostModel = {
     id: '123',
