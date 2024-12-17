@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import * as crypto from 'crypto';
 import {
     PostModel,
     PostState,
@@ -42,7 +43,7 @@ export class PostsService implements PostsServiceInterface {
             title: data.title,
             content: data.content,
             state: data.state,
-            hash: 'hash',
+            hash: this.createHash(data.title, data.content),
             created_at: new Date(),
             updated_at: new Date(),
         });
@@ -57,12 +58,22 @@ export class PostsService implements PostsServiceInterface {
             title: data.title,
             content: data.content,
             state: data.state,
-            hash: 'hash',
+            hash: this.createHash(data.title, data.content),
             updated_at: new Date(),
         });
     }
 
     deletePost(id: string): void {
         this.postsApi.deletePost('posts.delete', id);
+    }
+
+    private createHash(
+        title: string,
+        content: string,
+    ): string {
+        return crypto
+            .createHash('md5')
+            .update(`${title}:${content}`)
+            .digest('hex');
     }
 }
