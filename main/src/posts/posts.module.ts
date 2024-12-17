@@ -10,6 +10,8 @@ import { PostsApiServiceInterface } from '../interfaces/PostsApiService.interfac
 import { PostsApiService } from './postsApi.service';
 import { IdGeneratorServiceInterface } from '../interfaces/IdGeneratorService.interface';
 import { IdGeneratorService } from './idGenerator.service';
+import { ConfigService } from '@nestjs/config';
+import { Config } from '../config';
 
 @Module({
     controllers: [PostsController],
@@ -31,14 +33,19 @@ import { IdGeneratorService } from './idGenerator.service';
         ClientsModule.registerAsync([
             {
                 name: 'posts-api-client',
-                imports: [],
-                useFactory: async () => ({
+                useFactory: async (
+                    config: ConfigService<Config>,
+                ) => ({
                     transport: Transport.NATS,
                     options: {
-                        servers: ['nats://localhost:4222'],
+                        servers: [
+                            config.get('nats', {
+                                infer: true,
+                            })!.server,
+                        ],
                     },
                 }),
-                inject: [],
+                inject: [ConfigService],
             },
         ]),
     ],
