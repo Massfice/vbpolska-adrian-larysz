@@ -1,10 +1,21 @@
 import { Controller } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import {
+    Ctx,
+    EventPattern,
+    Payload,
+} from '@nestjs/microservices';
+import { ContextInterface } from '../interfaces/context.interface';
 
 @Controller()
 export class LoggerController {
     @EventPattern('events.>')
-    async something(data: any) {
-        console.log(data);
+    async logEvent(
+        @Payload() data: any,
+        @Ctx() context: ContextInterface,
+    ) {
+        console.log({
+            subject: context.getSubject(),
+            ...data,
+        });
     }
 }
