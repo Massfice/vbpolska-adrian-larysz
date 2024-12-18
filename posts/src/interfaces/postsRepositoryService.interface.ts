@@ -18,3 +18,7 @@ export interface PostsRepositoryServiceInterface {
 
     deletePost(data: IdPostDto): Promise<void>;
 }
+
+export const PostsRepositoryServiceInterface = Symbol(
+    'PostsRepositoryServiceInterface',
+);
