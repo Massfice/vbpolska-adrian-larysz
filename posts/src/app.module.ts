@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { configuration } from './config';
+import {
+    ConfigModule,
+    ConfigService,
+} from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Config, configuration } from './config';
 import { PostsModule } from './posts/posts.module';
 
 @Module({
@@ -8,6 +12,15 @@ import { PostsModule } from './posts/posts.module';
         ConfigModule.forRoot({
             isGlobal: true,
             load: [configuration],
+        }),
+        MongooseModule.forRootAsync({
+            useFactory: (
+                config: ConfigService<Config>,
+            ) => ({
+                uri: config.get('mongo', { infer: true })!
+                    .url,
+            }),
+            inject: [ConfigService],
         }),
         PostsModule,
     ],

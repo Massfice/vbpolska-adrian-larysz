@@ -7,8 +7,6 @@ import { PostModel } from '../models/response/Post.model';
 const emitEvent =
     (client: ClientProxy, pattern: string, data: any) =>
     (response: any) => {
-        console.log({ client, pattern, data, response });
-
         client.emit(pattern, {
             data,
             response,
