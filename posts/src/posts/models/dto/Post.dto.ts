@@ -1,5 +1,8 @@
-export class UpdatePostDto {
+export class IdPostDto {
     id: string;
+}
+
+export class UpdatePostDto extends IdPostDto {
     title: string;
     content: string;
     state: string;
