@@ -35,7 +35,6 @@ export const PostSchema =
     SchemaFactory.createForClass(Post);
 
 PostSchema.set('timestamps', false);
-PostSchema.set('_id', false);
 PostSchema.set('versionKey', false);
 PostSchema.set('strict', 'throw');
 
