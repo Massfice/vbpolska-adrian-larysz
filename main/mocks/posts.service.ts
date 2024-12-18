@@ -4,17 +4,31 @@ import { Observable, of } from 'rxjs';
 import { PostsServiceInterface } from '../src/interfaces/PostsService.interface';
 
 export class PostsService implements PostsServiceInterface {
+    private _calls: { data: any }[] = [];
+
     private _posts: PostModel[] = [];
 
     set posts(posts: PostModel[]) {
         this._posts = posts;
     }
 
+    get calls(): { data: any }[] {
+        return this._calls;
+    }
+
     fetchAllPosts(): Observable<PostModel[]> {
+        this._calls.push({
+            data: { name: 'fetchAllPosts' },
+        });
+
         return of(this._posts);
     }
 
     getPostById(id: string): Observable<PostModel | null> {
+        this._calls.push({
+            data: { name: 'getPostById', id },
+        });
+
         const post = this._posts.find(
             ({ id: postId }) => id === postId,
         );
@@ -27,6 +41,10 @@ export class PostsService implements PostsServiceInterface {
     }
 
     createPost(data: PostDto): Observable<PostModel> {
+        this._calls.push({
+            data: { name: 'createPost', data },
+        });
+
         const post: PostModel = {
             id: '123',
             title: data.title,
@@ -44,6 +62,10 @@ export class PostsService implements PostsServiceInterface {
         id: string,
         data: PostDto,
     ): Observable<PostModel | null> {
+        this._calls.push({
+            data: { name: 'updatePost', id, data },
+        });
+
         const post = this._posts.find(
             ({ id: postId }) => id === postId,
         );
@@ -59,5 +81,9 @@ export class PostsService implements PostsServiceInterface {
         return of(post);
     }
 
-    deletePost(id: string): void {}
+    deletePost(id: string): void {
+        this._calls.push({
+            data: { name: 'deletePost', id },
+        });
+    }
 }

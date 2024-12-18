@@ -48,7 +48,13 @@ describe('PostsController', () => {
             testScheduler.run(({ expectObservable }) => {
                 const response = controller.fetchAllPosts();
 
-                expectObservable(response).toEqual(of([]));
+                expectObservable(response).toBe('(a|)', {
+                    a: [],
+                });
+
+                expect(postsService.calls).toEqual([
+                    { data: { name: 'fetchAllPosts' } },
+                ]);
             });
         });
 
@@ -79,9 +85,13 @@ describe('PostsController', () => {
             testScheduler.run(({ expectObservable }) => {
                 const response = controller.fetchAllPosts();
 
-                expectObservable(response).toEqual(
-                    of(posts),
-                );
+                expectObservable(response).toBe('(a|)', {
+                    a: posts,
+                });
+
+                expect(postsService.calls).toEqual([
+                    { data: { name: 'fetchAllPosts' } },
+                ]);
             });
         });
     });
@@ -108,6 +118,15 @@ describe('PostsController', () => {
                 expectObservable(response).toBe('(a|)', {
                     a: post,
                 });
+
+                expect(postsService.calls).toEqual([
+                    {
+                        data: {
+                            name: 'getPostById',
+                            id: post.id,
+                        },
+                    },
+                ]);
             });
         });
 
@@ -139,6 +158,15 @@ describe('PostsController', () => {
                         status: HttpStatus.NOT_FOUND,
                     }),
                 );
+
+                expect(postsService.calls).toEqual([
+                    {
+                        data: {
+                            name: 'getPostById',
+                            id: '456',
+                        },
+                    },
+                ]);
             });
         });
     });
@@ -168,6 +196,15 @@ describe('PostsController', () => {
                 expectObservable(response).toBe('(a|)', {
                     a: post,
                 });
+
+                expect(postsService.calls).toEqual([
+                    {
+                        data: {
+                            name: 'createPost',
+                            data: postData,
+                        },
+                    },
+                ]);
             });
         });
     });
@@ -206,6 +243,16 @@ describe('PostsController', () => {
                         state: postData.state,
                     },
                 });
+
+                expect(postsService.calls).toEqual([
+                    {
+                        data: {
+                            name: 'updatePost',
+                            data: postData,
+                            id: '123',
+                        },
+                    },
+                ]);
             });
         });
 
@@ -234,6 +281,16 @@ describe('PostsController', () => {
                         status: HttpStatus.NOT_FOUND,
                     }),
                 );
+
+                expect(postsService.calls).toEqual([
+                    {
+                        data: {
+                            name: 'updatePost',
+                            data: postData,
+                            id: '123',
+                        },
+                    },
+                ]);
             });
         });
     });
@@ -243,6 +300,15 @@ describe('PostsController', () => {
             const response = controller.deletePost('12345');
 
             expect(response).toBeUndefined();
+
+            expect(postsService.calls).toEqual([
+                {
+                    data: {
+                        name: 'deletePost',
+                        id: '12345',
+                    },
+                },
+            ]);
         });
     });
 });
