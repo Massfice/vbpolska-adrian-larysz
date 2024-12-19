@@ -85,6 +85,16 @@ You can view logs for the logger service with:
 docker-compose logs logger-prod -f
 ```
 
+### Starting Tests
+
+```bash
+cd main && npm test
+
+cd posts && npm test
+
+cd logger && npm test
+```
+
 ## Development vs Production
 
 - **Development**: Spin up MongoDB and NATS for local development using `docker-compose-dev.yaml`.
