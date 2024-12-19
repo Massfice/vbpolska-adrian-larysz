@@ -20,7 +20,7 @@ export class PostDto {
     @MinLength(3)
     content: string;
 
-    @ApiProperty()
+    @ApiProperty({ example: PostState.DRAFT })
     @IsString()
     @IsEnum(PostState, {
         message: 'state must be PUBLISHED or DRAFT',
