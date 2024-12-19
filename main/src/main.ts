@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { version } from '../package.json';
 import { AppModule } from './app.module';
 import { Config } from './config';
+import { AppExceptionFilter } from './AppExceptionFilter';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -20,6 +21,8 @@ async function bootstrap() {
             forbidUnknownValues: true,
         }),
     );
+
+    app.useGlobalFilters(new AppExceptionFilter());
 
     const config = new DocumentBuilder()
         .setTitle('Post API')
