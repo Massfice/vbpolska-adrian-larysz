@@ -1,4 +1,4 @@
-# Recruitment Task - System Overview - Adrian Larysz
+# Posts API - System Overview - Adrian Larysz
 
 This repository contains a multi-component system designed to manage posts and logging services. The system consists of several key components that are connected via **NATS** for communication between services and utilizes **MongoDB** as a database.
 
