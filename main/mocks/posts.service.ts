@@ -1,5 +1,8 @@
 import { PostDto } from '../src/models/dto/Post.dto';
-import { PostModel } from '../src/models/response/Post.model';
+import {
+    PostModel,
+    PostState,
+} from '../src/models/response/Post.model';
 import { Observable, of } from 'rxjs';
 import { PostsServiceInterface } from '../src/interfaces/PostsService.interface';
 
@@ -49,7 +52,7 @@ export class PostsService implements PostsServiceInterface {
             id: '123',
             title: data.title,
             content: data.content,
-            state: data.state,
+            state: data.state || PostState.DRAFT,
             hash: 'hash',
             created_at: new Date(),
             updated_at: new Date(),
@@ -76,7 +79,7 @@ export class PostsService implements PostsServiceInterface {
 
         post.title = data.title;
         post.content = data.content;
-        post.state = data.state;
+        post.state = data.state || PostState.DRAFT;
 
         return of(post);
     }

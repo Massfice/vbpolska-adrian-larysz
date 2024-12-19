@@ -10,16 +10,6 @@ import { PostsServiceInterface } from '../interfaces/PostsService.interface';
 import { PostsApiServiceInterface } from '../interfaces/PostsApiService.interface';
 import { IdGeneratorServiceInterface } from '../interfaces/IdGeneratorService.interface';
 
-const post: PostModel = {
-    id: '123',
-    title: 'My post',
-    content: 'My post content',
-    state: PostState.DRAFT,
-    hash: 'hash',
-    created_at: new Date(),
-    updated_at: new Date(),
-};
-
 @Injectable()
 export class PostsService implements PostsServiceInterface {
     constructor(
@@ -42,7 +32,7 @@ export class PostsService implements PostsServiceInterface {
             id: this.idGenerator.generateId(),
             title: data.title,
             content: data.content,
-            state: data.state,
+            state: data.state || PostState.DRAFT,
             hash: this.createHash(data.title, data.content),
             created_at: new Date(),
             updated_at: new Date(),
@@ -57,7 +47,7 @@ export class PostsService implements PostsServiceInterface {
             id,
             title: data.title,
             content: data.content,
-            state: data.state,
+            state: data.state || PostState.DRAFT,
             hash: this.createHash(data.title, data.content),
             updated_at: new Date(),
         });
