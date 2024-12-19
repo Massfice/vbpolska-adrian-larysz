@@ -20,6 +20,7 @@ import { PostModel } from '../models/response/Post.model';
 import { PostDto } from '../models/dto/Post.dto';
 import { createApiError } from '../utils/createApiError';
 import { PostsServiceInterface } from '../interfaces/PostsService.interface';
+import { ErrorModel } from '../models/response/Error.model';
 
 @Controller('posts')
 @ApiTags('Posts')
@@ -35,6 +36,10 @@ export class PostsController {
         type: PostModel,
         isArray: true,
     })
+    @ApiResponse({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        type: ErrorModel,
+    })
     @ApiOperation({ summary: 'fetch all posts' })
     fetchAllPosts(): Observable<PostModel[]> {
         return this.postsService.fetchAllPosts();
@@ -45,6 +50,14 @@ export class PostsController {
     @ApiResponse({
         status: HttpStatus.OK,
         type: PostModel,
+    })
+    @ApiResponse({
+        status: HttpStatus.NOT_FOUND,
+        type: ErrorModel,
+    })
+    @ApiResponse({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        type: ErrorModel,
     })
     getPost(
         @Param('id') id: string,
@@ -71,6 +84,14 @@ export class PostsController {
         status: HttpStatus.CREATED,
         type: PostModel,
     })
+    @ApiResponse({
+        status: HttpStatus.BAD_REQUEST,
+        type: ErrorModel,
+    })
+    @ApiResponse({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        type: ErrorModel,
+    })
     @HttpCode(HttpStatus.CREATED)
     createPost(
         @Body() data: PostDto,
@@ -81,6 +102,18 @@ export class PostsController {
     @Put('/:id')
     @ApiOperation({ summary: 'update post' })
     @ApiResponse({ status: HttpStatus.OK, type: PostModel })
+    @ApiResponse({
+        status: HttpStatus.BAD_REQUEST,
+        type: ErrorModel,
+    })
+    @ApiResponse({
+        status: HttpStatus.NOT_FOUND,
+        type: ErrorModel,
+    })
+    @ApiResponse({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        type: ErrorModel,
+    })
     updatePost(
         @Param('id') id: string,
         @Body() data: PostDto,
@@ -104,6 +137,10 @@ export class PostsController {
     @Delete('/:id')
     @ApiOperation({ summary: 'delete post' })
     @ApiResponse({ status: HttpStatus.NO_CONTENT })
+    @ApiResponse({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        type: ErrorModel,
+    })
     @HttpCode(HttpStatus.NO_CONTENT)
     deletePost(@Param('id') id: string): void {
         return this.postsService.deletePost(id);

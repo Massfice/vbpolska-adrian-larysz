@@ -3,6 +3,9 @@
 /node_modules
 /build
 tsconfig.build.tsbuildinfo
+/mocks/**/*.d.ts
+/mocks/**/*.js
+/mocks/**/*.js.map
 
 # Logs
 logs

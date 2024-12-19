@@ -15,7 +15,7 @@ WORKDIR /app
 RUN npm ci
 
 COPY tsconfig.json tsconfig.json
-COPY tsconfig.build.json tsconfig.build.json
+COPY tsconfig.docker.json tsconfig.build.json
 COPY src src
 
 RUN npm run build

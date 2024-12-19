@@ -15,7 +15,7 @@ export class PostModel {
     @ApiProperty()
     content: string;
 
-    @ApiProperty()
+    @ApiProperty({ example: PostState.DRAFT })
     state: PostState;
 
     @ApiProperty()
