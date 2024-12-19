@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import {
     DocumentBuilder,
     SwaggerModule,
@@ -10,6 +11,15 @@ import { Config } from './config';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
+
+    app.useGlobalPipes(
+        new ValidationPipe({
+            transform: true,
+            whitelist: true,
+            forbidNonWhitelisted: true,
+            forbidUnknownValues: true,
+        }),
+    );
 
     const config = new DocumentBuilder()
         .setTitle('Post API')
