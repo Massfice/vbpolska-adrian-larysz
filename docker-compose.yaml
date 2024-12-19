@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  nats-prod:
+    image: nats:latest
+    container_name: nats-prod
+    networks:
+      - internal_network
+
+  mongodb-prod:
+    image: mongo:latest
+    container_name: mongodb-prod
+    networks:
+      - internal_network
+
+  logger-prod:
+    build:
+      context: ./logger
+      dockerfile: Dockerfile
+    container_name: logger-prod
+    environment:
+      NATS_SERVER: nats://nats-prod:4222
+    depends_on:
+      - nats-prod
+    networks:
+      - internal_network
+
+  posts-prod:
+    build:
+      context: ./posts
+      dockerfile: Dockerfile
+    container_name: posts-prod
+    environment:
+      NATS_SERVER: nats://nats-prod:4222
+      MONGO_URL: mongodb://mongodb-prod:27017/posts_db
+    depends_on:
+      - nats-prod
+      - mongodb-prod
+    networks:
+      - internal_network
+
+  main-prod:
+    build:
+      context: ./main
+      dockerfile: Dockerfile
+    container_name: main-prod
+    environment:
+      NATS_SERVER: nats://nats-prod:4222
+    depends_on:
+      - posts-prod
+      - logger-prod
+    networks:
+      - internal_network
+    ports:
+      - "3000:3000"
+
+networks:
+  internal_network:
+    driver: bridge
